@@ -38,7 +38,7 @@ void RemoveHooks()
 {
 	//std::cout << "I'm here (Remove)" << std::endl;
 
-	//Detour
+	//End Detour
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
 	DetourDetach(&(PVOID&)TrueSystemParametersInfo, SystemParametersInfo_Wrapper);

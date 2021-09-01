@@ -3,8 +3,6 @@
 #include <iostream>
 #include <detours.h>
 
-#pragma warning(disable : 4996)
-
 static BOOL(WINAPI* TrueSystemParametersInfo)(UINT uiAction, UINT uiParam, PVOID pvParam, UINT fWinInis) = SystemParametersInfoA;
 
 BOOL WINAPI SystemParametersInfo_Wrapper(UINT uiAction, UINT uiParam, PVOID pvParam, UINT fWinIni)

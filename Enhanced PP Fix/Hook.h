@@ -72,11 +72,3 @@ struct CUSTOM_PEB
 extern PROCESS_BASIC_INFORMATION BasicProcessInfo;
 
 void InitializeHooking();
-
-void* HookFunction_Internal(const char* DLLName, const char* FunctionName, void* NewAddress);
-
-template<typename T>
-T HookFunction(const char* DLLName, const char* FunctionName, T NewAddress)
-{
-	return (T)HookFunction_Internal(DLLName, FunctionName, NewAddress);
-}

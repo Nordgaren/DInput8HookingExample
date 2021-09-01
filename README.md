@@ -1,4 +1,4 @@
-# Enhanced PP Fix by Nordgaren
+# Enhanced PP Fix  
 
 Prevents the game from setting your Enhanced Pointer Precision mouse settings in Windows
 

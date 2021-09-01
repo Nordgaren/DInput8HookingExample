@@ -7,10 +7,6 @@
 
 static BOOL(WINAPI* TrueSystemParametersInfo)(UINT uiAction, UINT uiParam, PVOID pvParam, UINT fWinInis) = SystemParametersInfoA;
 
-typedef BOOL(*SystemParametersInfo_t)(UINT uiAction, UINT uiParam, PVOID pvParam, UINT fWinIni);
-
-SystemParametersInfo_t OriginalSystemParametersInfo;
-
 BOOL WINAPI SystemParametersInfo_Wrapper(UINT uiAction, UINT uiParam, PVOID pvParam, UINT fWinIni)
 {
 	//std::cout << "I'm here in the function " << uiAction << std::endl;

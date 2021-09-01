@@ -13,7 +13,7 @@ SystemParametersInfo_t OriginalSystemParametersInfo;
 
 BOOL WINAPI SystemParametersInfo_Wrapper(UINT uiAction, UINT uiParam, PVOID pvParam, UINT fWinIni)
 {
-	std::cout << "I'm here in the function " << uiAction << std::endl;
+	//std::cout << "I'm here in the function " << uiAction << std::endl;
 
 	// Stop touching my mouse you fucks
 	if (uiAction == SPI_SETMOUSE)

@@ -3,6 +3,7 @@
 #include "DInput8.h"
 #include "Hook.h"
 #include "CustomHooks.h"
+#include <iostream>
 
 void Init()
 {
@@ -16,7 +17,6 @@ void Init()
 		OriginalFunction = (DirectInput8Create_t)GetProcAddress(DInput8DLL, "DirectInput8Create");
 	}
 	InitializeHooking();
-
 	SetupHooks();
 }
 
@@ -29,9 +29,11 @@ BOOL APIENTRY DllMain(HMODULE Module,
 	case DLL_PROCESS_ATTACH:
 		Init();
 		break;
+	case DLL_PROCESS_DETACH:
+		RemoveHooks();
+		break;
 	case DLL_THREAD_ATTACH:
 	case DLL_THREAD_DETACH:
-	case DLL_PROCESS_DETACH:
 		break;
 	}
 	return TRUE;

@@ -1,85 +1,53 @@
 #include "stdafx.h"
 #include "CustomHooks.h"
+#include <iostream>
+#include <detours.h>
 
-typedef HANDLE(*CreateFileA_t)(
-	LPCSTR                lpFileName,
-	DWORD                 dwDesiredAccess,
-	DWORD                 dwShareMode,
-	LPSECURITY_ATTRIBUTES lpSecurityAttributes,
-	DWORD                 dwCreationDisposition,
-	DWORD                 dwFlagsAndAttributes,
-	HANDLE                hTemplateFile);
+#pragma warning(disable : 4996)
 
-typedef HANDLE(*CreateFileW_t)(
-	LPCWSTR                lpFileName,
-	DWORD                 dwDesiredAccess,
-	DWORD                 dwShareMode,
-	LPSECURITY_ATTRIBUTES lpSecurityAttributes,
-	DWORD                 dwCreationDisposition,
-	DWORD                 dwFlagsAndAttributes,
-	HANDLE                hTemplateFile);
+static BOOL(WINAPI* TrueSystemParametersInfo)(UINT uiAction, UINT uiParam, PVOID pvParam, UINT fWinInis) = SystemParametersInfoA;
 
-CreateFileA_t OriginalCreateFileA;
-CreateFileW_t OriginalCreateFileW;
+typedef BOOL(*SystemParametersInfo_t)(UINT uiAction, UINT uiParam, PVOID pvParam, UINT fWinIni);
 
-HANDLE CreateFileA_Wrapper(
-	LPCSTR                lpFileName,
-	DWORD                 dwDesiredAccess,
-	DWORD                 dwShareMode,
-	LPSECURITY_ATTRIBUTES lpSecurityAttributes,
-	DWORD                 dwCreationDisposition,
-	DWORD                 dwFlagsAndAttributes,
-	HANDLE                hTemplateFile
-)
+SystemParametersInfo_t OriginalSystemParametersInfo;
+
+BOOL WINAPI SystemParametersInfo_Wrapper(UINT uiAction, UINT uiParam, PVOID pvParam, UINT fWinIni)
 {
-	// Do our custom stuff and parameter rewriting
-	WriteConsoleA(GetStdHandle(STD_OUTPUT_HANDLE), lpFileName, (DWORD)strlen(lpFileName), nullptr, nullptr);
-	WriteConsoleA(GetStdHandle(STD_OUTPUT_HANDLE), "\n", 1, nullptr, nullptr);
+	std::cout << "I'm here in the function " << uiAction << std::endl;
 
-	// Call the original CreateFileA function
-	return OriginalCreateFileA(
-		lpFileName,
-		dwDesiredAccess,
-		dwShareMode,
-		lpSecurityAttributes,
-		dwCreationDisposition,
-		dwFlagsAndAttributes,
-		hTemplateFile);
+	// Stop touching my mouse you fucks
+	if (uiAction == SPI_SETMOUSE)
+		return true;
+
+	// Call the original SystemParametersInfo function
+	return TrueSystemParametersInfo(uiAction, uiParam, pvParam, fWinIni);
 }
 
-HANDLE CreateFileW_Wrapper(
-	LPCWSTR                lpFileName,
-	DWORD                 dwDesiredAccess,
-	DWORD                 dwShareMode,
-	LPSECURITY_ATTRIBUTES lpSecurityAttributes,
-	DWORD                 dwCreationDisposition,
-	DWORD                 dwFlagsAndAttributes,
-	HANDLE                hTemplateFile
-)
-{
-	// Do our custom stuff and parameter rewriting
-	WriteConsoleW(GetStdHandle(STD_OUTPUT_HANDLE), lpFileName, (DWORD)wcslen(lpFileName), nullptr, nullptr);
-	WriteConsoleW(GetStdHandle(STD_OUTPUT_HANDLE), L"\n", 1, nullptr, nullptr);
-
-	// Call the original CreateFileW function
-	return OriginalCreateFileW(
-		lpFileName,
-		dwDesiredAccess,
-		dwShareMode,
-		lpSecurityAttributes,
-		dwCreationDisposition,
-		dwFlagsAndAttributes,
-		hTemplateFile);
-}
 
 void SetupHooks()
 {
 	// Create a console for Debug output
-	AllocConsole();
+	//AllocConsole();
+	//freopen("CONIN$", "r", stdin);
+	//freopen("CONOUT$", "w", stdout);
+	//freopen("CONOUT$", "w", stderr);
+	//std::cout << "I'm here" << std::endl;
 
-	// Setup hooks here, see examples below
-	
-	OriginalCreateFileA = HookFunction("KERNEL32.dll", "CreateFileA", &CreateFileA_Wrapper);
-	OriginalCreateFileW = HookFunction("KERNEL32.dll", "CreateFileW", &CreateFileW_Wrapper);
+	//Detour
+	DetourTransactionBegin();
+	DetourUpdateThread(GetCurrentThread());
+	DetourAttach(&(PVOID&)TrueSystemParametersInfo, SystemParametersInfo_Wrapper);
+	DetourTransactionCommit();
+}
+
+void RemoveHooks()
+{
+	//std::cout << "I'm here (Remove)" << std::endl;
+
+	//Detour
+	DetourTransactionBegin();
+	DetourUpdateThread(GetCurrentThread());
+	DetourDetach(&(PVOID&)TrueSystemParametersInfo, SystemParametersInfo_Wrapper);
+	DetourTransactionCommit();
 }
 

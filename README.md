@@ -3,7 +3,7 @@
 Prevents the game from setting your Enhanced Pointer Precision mouse settings in Windows
 
 ### Instructions
-1) put DINPUT8.dll in your DSR directory and launch the game  
+1) Put DINPUT8.dll in your DSR directory and launch the game  
 
 ### Thank You  
 **[pampersrocker](https://github.com/pampersrocker)** for [DInput8HookingExample](https://github.com/pampersrocker/DInput8HookingExample) which this is based on.  

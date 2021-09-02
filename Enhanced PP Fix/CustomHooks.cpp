@@ -28,7 +28,7 @@ void SetupHooks()
 	//freopen_s(&fstderr,"CONOUT$", "w", stderr);
 	//std::cout << "I'm here" << std::endl;
 
-	//Detour
+	// Detour
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
 	DetourAttach(&(PVOID&)TrueSystemParametersInfo, SystemParametersInfo_Wrapper);
@@ -39,7 +39,7 @@ void RemoveHooks()
 {
 	//std::cout << "I'm here (Remove)" << std::endl;
 
-	//End Detour
+	// End Detour
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
 	DetourDetach(&(PVOID&)TrueSystemParametersInfo, SystemParametersInfo_Wrapper);

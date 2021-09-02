@@ -5,13 +5,15 @@
 #include "CustomHooks.h"
 #include <iostream>
 
-void Init()
+void Init(HMODULE Module)
 {
+	//char DirPath[MAX_PATH];
+	//GetModuleFileNameA(Module, DirPath, MAX_PATH);
 	// Load the original dinput8.dll from the system directory
-	char DInputDllName[MAX_PATH];
-	GetSystemDirectoryA(DInputDllName, MAX_PATH);
-	strcat_s(DInputDllName, "\\dinput8.dll");
-	DInput8DLL = LoadLibraryA(DInputDllName);
+	char DInputDllPath[MAX_PATH];
+	GetSystemDirectoryA(DInputDllPath, MAX_PATH);
+	strcat_s(DInputDllPath, "\\dinput8.dll");
+	DInput8DLL = LoadLibraryA(DInputDllPath);
 	if (DInput8DLL > (HMODULE)31)
 	{
 		OriginalFunction = (DirectInput8Create_t)GetProcAddress(DInput8DLL, "DirectInput8Create");
@@ -27,7 +29,7 @@ BOOL APIENTRY DllMain(HMODULE Module,
 	switch (ReasonForCall)
 	{
 	case DLL_PROCESS_ATTACH:
-		Init();
+		Init(Module);
 		break;
 	case DLL_PROCESS_DETACH:
 		RemoveHooks();

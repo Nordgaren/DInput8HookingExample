@@ -22,9 +22,10 @@ void SetupHooks()
 {
 	// Create a console for Debug output
 	//AllocConsole();
-	//freopen("CONIN$", "r", stdin);
-	//freopen("CONOUT$", "w", stdout);
-	//freopen("CONOUT$", "w", stderr);
+	//FILE* fstdin = stdin, *fstdout = stdout, *fstderr = stderr;
+	//freopen_s(&fstdin,"CONIN$", "r", stdin);
+	//freopen_s(&fstdout,"CONOUT$", "w", stdout);
+	//freopen_s(&fstderr,"CONOUT$", "w", stderr);
 	//std::cout << "I'm here" << std::endl;
 
 	//Detour

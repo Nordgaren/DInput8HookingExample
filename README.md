@@ -1,8 +1,8 @@
 # Enhanced PP Fix  
 
-Prevents the game from setting your Enhanced Pointer Precision mouse setting in Windows
+Prevents the game from setting your Enhanced Pointer Precision mouse setting in Windows  
 
-### Instructions
+### Instructions  
 1) Put DINPUT8.dll in your DSR directory and launch the game  
 
 ### Thank You  
@@ -12,5 +12,3 @@ Prevents the game from setting your Enhanced Pointer Precision mouse setting in 
 ### Patch Notes  
 ## v 1
 * Release - Not out yet because I need to test if the game will ban or not for it.  
-
-

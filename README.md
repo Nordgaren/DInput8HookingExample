@@ -2,6 +2,8 @@
 
 Prevents the game from setting your Enhanced Pointer Precision mouse setting in Windows  
 
+I played DSR a bit in my freetime for the last two weeks and haven't recieved and EULA violation. Will update in 2 more weeks.
+
 ### Instructions  
 1) Put DINPUT8.dll in your DSR directory and launch the game  
 
@@ -11,4 +13,4 @@ Prevents the game from setting your Enhanced Pointer Precision mouse setting in 
 
 ### Patch Notes  
 ## v 1
-* Release - Not out yet because I need to test if the game will ban or not for it.  
+* Release

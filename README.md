@@ -2,6 +2,8 @@
 
 Prevents the game from setting your Enhanced Pointer Precision mouse setting in Windows  
 
+This is a fork of [DInput8HookingExample](https://github.com/pampersrocker/DInput8HookingExample)
+
 I played DSR a bit in my freetime for the last two weeks and haven't recieved and EULA violation. Will update in 2 more weeks.
 
 ### Instructions  
